@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f1115">
+<meta name="color-scheme" content="dark light">
+<meta name="mobile-web-app-capable" content="yes">
+<title>dropsend · 手机 ⇄ 电脑</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- 配对门：没配对成功之前，其余界面一律不显示 -->
+<section id="gate" class="gate">
+  <div class="gate-card">
+    <div class="gate-logo">dropsend</div>
+    <p class="gate-sub" id="gate-sub">正在检查配对状态…</p>
+
+    <form id="pair-form" class="hidden" autocomplete="off">
+      <label class="sr-only" for="pin">配对 PIN</label>
+      <input id="pin" class="pin-input" type="text" inputmode="numeric" pattern="[0-9]*"
+             maxlength="6" placeholder="······" aria-label="配对 PIN">
+      <button type="submit" class="btn btn-primary btn-block" id="pair-btn">连接电脑</button>
+      <p class="hint" id="pair-hint">请输入电脑上显示的 6 位数字</p>
+    </form>
+
+    <p class="gate-error hidden" id="gate-error"></p>
+    <button type="button" class="btn btn-ghost btn-block hidden" id="retry-pair">重新连接</button>
+  </div>
+</section>
+
+<!-- 主界面 -->
+<main id="app" class="hidden">
+  <header class="topbar">
+    <div class="topbar-main">
+      <span class="dot" id="link-dot"></span>
+      <div class="topbar-text">
+        <strong id="pc-name">电脑</strong>
+        <span id="link-state">连接中…</span>
+      </div>
+    </div>
+    <button class="icon-btn" id="refresh-btn" title="刷新" aria-label="刷新">⟳</button>
+  </header>
+
+  <div id="banner" class="banner hidden"></div>
+
+  <!-- 手机 -> 电脑 -->
+  <section class="panel" id="panel-send">
+    <h2 class="panel-title">发送到电脑</h2>
+
+    <div class="dropzone" id="dropzone">
+      <input type="file" id="file-input" multiple hidden>
+      <input type="file" id="dir-input" webkitdirectory directory multiple hidden>
+      <input type="file" id="camera-input" accept="image/*,video/*" capture="environment" hidden>
+
+      <div class="dropzone-inner">
+        <div class="dropzone-icon">⬆</div>
+        <p class="dropzone-title">点这里选择文件</p>
+        <p class="dropzone-hint">支持多选；要保留目录结构请用下面的“选择文件夹”</p>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="pick-files">选择文件</button>
+      <button class="btn" id="pick-dir">选择文件夹</button>
+      <button class="btn" id="pick-camera">拍照/录像</button>
+    </div>
+  </section>
+
+  <!-- 电脑 -> 手机 -->
+  <section class="panel" id="panel-receive">
+    <h2 class="panel-title">
+      电脑发来的
+      <button class="link-btn" id="reload-receive">刷新</button>
+    </h2>
+    <div class="btn-row" id="save-all-row" style="margin:0 0 6px">
+      <button class="btn btn-primary" id="save-all">
+        <span id="save-all-label">全部下载到手机</span>
+      </button>
+    </div>
+    <p class="hint" id="save-all-hint" style="margin:0 0 8px">
+      一次点一个文件太麻烦时用这个。iOS 上会逐个弹出保存框，需要你依次确认；
+      下载期间请保持本页面在前台，不要锁屏。
+    </p>
+    <div id="receive-empty" class="empty">暂无内容。在电脑上执行 <code>drop send &lt;文件&gt;</code> 即可推送。</div>
+    <ul class="list" id="receive-list"></ul>
+  </section>
+
+  <!-- 文本互传 -->
+  <section class="panel" id="panel-text">
+    <h2 class="panel-title">文本互传</h2>
+
+    <textarea id="text-out" class="textarea" rows="3"
+      placeholder="在这里输入文字，点“发给电脑”，电脑上就能直接 Ctrl+V 粘贴"></textarea>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="send-text">发给电脑</button>
+      <button class="btn" id="paste-btn">读剪贴板</button>
+      <button class="btn" id="pull-pc-clip">取电脑剪贴板</button>
+    </div>
+
+    <h3 class="sub-title">最近收到的文本</h3>
+    <div id="text-empty" class="empty">还没有收到电脑发来的文本。</div>
+    <ul class="list" id="text-list"></ul>
+  </section>
+
+  <!-- 任务进度 -->
+  <section class="panel" id="panel-tasks">
+    <h2 class="panel-title">传输任务</h2>
+    <div id="task-empty" class="empty">没有进行中的任务。</div>
+    <ul class="list" id="task-list"></ul>
+  </section>
+
+  <footer class="footer">
+    <span id="footer-info">dropsend</span>
+    <button class="link-btn" id="unpair">断开</button>
+  </footer>
+</main>
+
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+<script src="/app.js" type="module"></script>
+</body>
+</html>

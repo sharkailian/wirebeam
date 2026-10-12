@@ -1,0 +1,10 @@
+{
+  "port": 8787,
+  "url": "http://172.27.2.200:8787/",
+  "host": "0.0.0.0",
+  "pid": 34048,
+  "startedAt": 1790690352256,
+  "controlToken": "rBZ3WF7rtEnokIIIxcNdyqhTljXMi6fO",
+  "recvDir": "E:\\dsh_project\\dropsend\\data\\recv",
+  "hostName": "anywhereyouareImhere"
+}

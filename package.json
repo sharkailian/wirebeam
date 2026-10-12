@@ -1,0 +1,19 @@
+{
+  "name": "dropsend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "局域网内手机与电脑之间的双向文件、文件夹与文本互传工具（零依赖）",
+  "type": "module",
+  "bin": {
+    "drop": "./bin/drop.js"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "scripts": {
+    "start": "node bin/drop.js serve",
+    "test": "node --test --experimental-test-isolation=none test/api.test.ts test/events.test.ts test/qr.test.ts test/qr-crosscheck.test.ts test/smoke.test.ts test/clipboard.test.ts test/restart-resume.test.ts test/resume-restart.test.ts",
+    "acceptance": "node test/acceptance.mjs",
+    "selfcheck": "node bin/drop.js selfcheck"
+  }
+}
